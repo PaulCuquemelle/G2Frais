@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  ven. 21 sep. 2018 à 09:20
+-- Généré le :  ven. 21 sep. 2018 à 09:55
 -- Version du serveur :  10.1.35-MariaDB
 -- Version de PHP :  7.2.9
 
@@ -127,15 +127,37 @@ CREATE TABLE `LigneFraisHorsForfait` (
   `mois` char(6) NOT NULL,
   `libelle` varchar(100) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `montant` decimal(10,2) DEFAULT NULL
+  `montant` decimal(10,2) DEFAULT NULL,
+  `statut` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `LigneFraisHorsForfait`
 --
 
-INSERT INTO `LigneFraisHorsForfait` (`id`, `idVisiteur`, `mois`, `libelle`, `date`, `montant`) VALUES
-(1, 'a131', '201809', 'test', '2018-01-01', '10.00');
+INSERT INTO `LigneFraisHorsForfait` (`id`, `idVisiteur`, `mois`, `libelle`, `date`, `montant`, `statut`) VALUES
+(1, 'a131', '201809', 'test', '2018-01-01', '10.00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `StatutHorsForfait`
+--
+
+CREATE TABLE `StatutHorsForfait` (
+  `id` int(11) NOT NULL,
+  `libelle` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `StatutHorsForfait`
+--
+
+INSERT INTO `StatutHorsForfait` (`id`, `libelle`) VALUES
+(1, 'En attente des justificatifs'),
+(2, 'Validée'),
+(3, 'Remboursée'),
+(4, 'Refusée');
 
 -- --------------------------------------------------------
 
@@ -223,7 +245,14 @@ ALTER TABLE `LigneFraisForfait`
 --
 ALTER TABLE `LigneFraisHorsForfait`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idVisiteur` (`idVisiteur`,`mois`);
+  ADD KEY `idVisiteur` (`idVisiteur`,`mois`),
+  ADD KEY `FK_LigneHorsForfait_StatutHorsForfait` (`statut`);
+
+--
+-- Index pour la table `StatutHorsForfait`
+--
+ALTER TABLE `StatutHorsForfait`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `Visiteur`
@@ -240,6 +269,12 @@ ALTER TABLE `Visiteur`
 --
 ALTER TABLE `LigneFraisHorsForfait`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `StatutHorsForfait`
+--
+ALTER TABLE `StatutHorsForfait`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Contraintes pour les tables déchargées
@@ -263,6 +298,7 @@ ALTER TABLE `LigneFraisForfait`
 -- Contraintes pour la table `LigneFraisHorsForfait`
 --
 ALTER TABLE `LigneFraisHorsForfait`
+  ADD CONSTRAINT `FK_LigneHorsForfait_StatutHorsForfait` FOREIGN KEY (`statut`) REFERENCES `StatutHorsForfait` (`id`),
   ADD CONSTRAINT `LigneFraisHorsForfait_ibfk_1` FOREIGN KEY (`idVisiteur`,`mois`) REFERENCES `FicheFrais` (`idVisiteur`, `mois`);
 COMMIT;
 
