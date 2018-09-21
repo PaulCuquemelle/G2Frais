@@ -199,4 +199,14 @@ function nbErreurs(){
 	   return count($_REQUEST['erreurs']);
 	}
 }
+
+/**
+ * Retourne le mot de passe crypté
+ 
+ * @return le mot de passe crypté
+ */
+function crypterMdp($mdp) {
+	return hash("sha256", $mdp);
+}
+
 ?>
