@@ -9,9 +9,9 @@ L'application doit permettre d'établir une gestion plus précise et uniforme en
 # Structuration du projet
 
 Le projet comporte 3 dossiers :
-- doc -> Regroupe les différents documents importants du projet
-- sql -> Contient l'historique de tous les scripts (SQL ou PHP) qui ont modifié la BDD. "bdd.sql" contient le script SQL de la BDD final
-- src -> Contient le code source de l'application web
+- doc → Regroupe les différents documents importants du projet
+- sql → Contient l'historique de tous les scripts (SQL ou PHP) qui ont modifié la BDD. "bdd.sql" contient le script SQL de la BDD final
+- src → Contient le code source de l'application web
 
 # Modifications souhaitées
 
