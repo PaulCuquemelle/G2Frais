@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le :  ven. 21 sep. 2018 à 09:55
+-- Généré le :  mer. 26 sep. 2018 à 20:11
 -- Version du serveur :  10.1.35-MariaDB
 -- Version de PHP :  7.2.9
 
@@ -21,6 +21,16 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `gsb_frais`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Comptable`
+--
+
+CREATE TABLE `Comptable` (
+  `id` char(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -162,10 +172,10 @@ INSERT INTO `StatutHorsForfait` (`id`, `libelle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Visiteur`
+-- Structure de la table `Utilisateur`
 --
 
-CREATE TABLE `Visiteur` (
+CREATE TABLE `Utilisateur` (
   `id` char(4) NOT NULL,
   `nom` char(30) DEFAULT NULL,
   `prenom` char(30) DEFAULT NULL,
@@ -178,10 +188,10 @@ CREATE TABLE `Visiteur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `Visiteur`
+-- Déchargement des données de la table `Utilisateur`
 --
 
-INSERT INTO `Visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`) VALUES
+INSERT INTO `Utilisateur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`) VALUES
 ('a131', 'Villechalane', 'Louis', 'lvillachane', 'ca3983640f22d6a38a0708731ac697146026828b88594f9522ae5517960bd56d', '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
 ('a17', 'Andre', 'David', 'dandre', 'db326140bcd9230558378827ccd72ba2a6cf467012df164589a6a2cf6efeba45', '1 rue Petit', '46200', 'Lalbenque', '1998-11-23'),
 ('a55', 'Bedos', 'Christian', 'cbedos', 'c24a6c41c1f9a6d765954bcadb0b5ed12f22961f456bd4c6a5dae7fa1d81d6f5', '1 rue Peranud', '46250', 'Montcuq', '1995-01-12'),
@@ -210,9 +220,58 @@ INSERT INTO `Visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, 
 ('f39', 'Frémont', 'Fernande', 'ffremont', 'cea048b708eb7370885cdfb26d829db686dd3b35afd59a76bf56dfbb5ba492b7', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
 ('f4', 'Gest', 'Alain', 'agest', '8c639ef0ee4c3b3ffddb53ee0aefbff6c1d27b5eefcdbf6c3f5245dc8b2f7513', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Visiteur`
+--
+
+CREATE TABLE `Visiteur` (
+  `id` char(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `Visiteur`
+--
+
+INSERT INTO `Visiteur` (`id`) VALUES
+('a131'),
+('a17'),
+('a55'),
+('a93'),
+('b13'),
+('b16'),
+('b19'),
+('b25'),
+('b28'),
+('b34'),
+('b4'),
+('b50'),
+('b59'),
+('c14'),
+('c3'),
+('c54'),
+('d13'),
+('d51'),
+('e22'),
+('e24'),
+('e39'),
+('e49'),
+('e5'),
+('e52'),
+('f21'),
+('f39'),
+('f4');
+
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `Comptable`
+--
+ALTER TABLE `Comptable`
+  ADD KEY `FK_COMPTABLE_UTILISATEUR` (`id`);
 
 --
 -- Index pour la table `Etat`
@@ -255,6 +314,12 @@ ALTER TABLE `StatutHorsForfait`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `Utilisateur`
+--
+ALTER TABLE `Utilisateur`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `Visiteur`
 --
 ALTER TABLE `Visiteur`
@@ -281,11 +346,17 @@ ALTER TABLE `StatutHorsForfait`
 --
 
 --
+-- Contraintes pour la table `Comptable`
+--
+ALTER TABLE `Comptable`
+  ADD CONSTRAINT `FK_COMPTABLE_UTILISATEUR` FOREIGN KEY (`id`) REFERENCES `Utilisateur` (`id`);
+
+--
 -- Contraintes pour la table `FicheFrais`
 --
 ALTER TABLE `FicheFrais`
   ADD CONSTRAINT `FicheFrais_ibfk_1` FOREIGN KEY (`idEtat`) REFERENCES `Etat` (`id`),
-  ADD CONSTRAINT `FicheFrais_ibfk_2` FOREIGN KEY (`idVisiteur`) REFERENCES `Visiteur` (`id`);
+  ADD CONSTRAINT `FicheFrais_ibfk_2` FOREIGN KEY (`idVisiteur`) REFERENCES `Utilisateur` (`id`);
 
 --
 -- Contraintes pour la table `LigneFraisForfait`
@@ -300,6 +371,12 @@ ALTER TABLE `LigneFraisForfait`
 ALTER TABLE `LigneFraisHorsForfait`
   ADD CONSTRAINT `FK_LigneHorsForfait_StatutHorsForfait` FOREIGN KEY (`statut`) REFERENCES `StatutHorsForfait` (`id`),
   ADD CONSTRAINT `LigneFraisHorsForfait_ibfk_1` FOREIGN KEY (`idVisiteur`,`mois`) REFERENCES `FicheFrais` (`idVisiteur`, `mois`);
+
+--
+-- Contraintes pour la table `Visiteur`
+--
+ALTER TABLE `Visiteur`
+  ADD CONSTRAINT `FK_VISITEUR_UTILISATEUR` FOREIGN KEY (`id`) REFERENCES `Utilisateur` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
