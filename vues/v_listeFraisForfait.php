@@ -13,6 +13,7 @@
 					$idFrais = $unFrais['idFrais'];
 					$libelle = $unFrais['libelle'];
 					$quantite = $unFrais['quantite'];
+					$montant = $unFrais['montant'];
 			?>
 					<p>
 						<label for="idFrais"><?php echo $libelle ?></label>

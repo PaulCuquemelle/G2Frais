@@ -107,10 +107,11 @@ class PdoGsb{
 */
 	public function getLesFraisForfait($idVisiteur, $mois){
 		$req = "SELECT FraisForfait.id AS idFrais, FraisForfait.libelle AS libelle, 
-		LigneFraisForfait.quantite as quantite from LigneFraisForfait INNER JOIN FraisForfait 
+		LigneFraisForfait.quantite as quantite, FraisForfait.Montant as montant from LigneFraisForfait INNER JOIN FraisForfait 
 		ON FraisForfait.id = LigneFraisForfait.idFraisForfait
 		WHERE LigneFraisForfait.idVisiteur ='$idVisiteur' AND LigneFraisForfait.mois='$mois' 
 		ORDER BY LigneFraisForfait.idFraisForfait";	
+			
 		$res = PdoGsb::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes; 
