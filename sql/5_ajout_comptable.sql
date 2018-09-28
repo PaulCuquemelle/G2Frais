@@ -51,7 +51,7 @@ CREATE TABLE `Comptable` (
 -- Index pour la table `Comptable`
 --
 ALTER TABLE `Comptable`
-  ADD KEY `FK_COMPTABLE_UTILISATEUR` (`id`);
+  ADD PRIMARY KEY `FK_COMPTABLE_UTILISATEUR` (`id`);
 
 --
 -- Contraintes pour les tables déchargées
