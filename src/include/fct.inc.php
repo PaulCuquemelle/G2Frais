@@ -20,10 +20,11 @@ function estConnecte(){
  * @param $nom
  * @param $prenom
  */
-function connecter($id,$nom,$prenom){
+function connecter($id,$nom,$prenom, $comptable){
 	$_SESSION['idVisiteur']= $id; 
 	$_SESSION['nom']= $nom;
 	$_SESSION['prenom']= $prenom;
+	$_SESSION["comptable"] = $comptable;
 }
 /**
  * Détruit la session active
@@ -199,4 +200,14 @@ function nbErreurs(){
 	   return count($_REQUEST['erreurs']);
 	}
 }
+
+/**
+ * Retourne le mot de passe crypté
+ 
+ * @return le mot de passe crypté
+ */
+function crypterMdp($mdp) {
+	return hash("sha256", $mdp);
+}
+
 ?>

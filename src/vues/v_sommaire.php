@@ -1,3 +1,6 @@
+<?php
+	$typeCompte = ($_SESSION["comptable"]) ? "Comptable" : "Visiteur";
+?>
 ﻿    <!-- Division pour le sommaire -->
     <div id="menuGauche">
      <div id="infosUtil">
@@ -9,7 +12,7 @@
       </div>  
         <ul id="menuList">
 			<li >
-				  Visiteur :<br>
+				  <?= $typeCompte ?> :<br>
 				<?php echo $_SESSION['prenom']."  ".$_SESSION['nom']  ?>
 			</li>
            <li class="smenu">

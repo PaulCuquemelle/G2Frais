@@ -18,8 +18,8 @@
 class PdoGsb{   		
       	private static $serveur='mysql:host=localhost';
       	private static $bdd='dbname=gsb_frais';   		
-      	private static $user='root' ;    		
-      	private static $mdp='' ;	
+      	private static $user='gsbfrais';    		
+      	private static $mdp='gsbfrais';	
 		private static $monPdo;
 		private static $monPdoGsb=null;
 /**
@@ -54,10 +54,18 @@ class PdoGsb{
  * @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
 */
 	public function getInfosVisiteur($login, $mdp){
-		$req = "SELECT Visiteur.id AS id, Visiteur.nom AS nom, Visiteur.prenom AS prenom FROM Visiteur 
-		WHERE Visiteur.login='$login' AND Visiteur.mdp='$mdp'";
+		$req = "SELECT Utilisateur.id AS id, Utilisateur.nom AS nom, Utilisateur.prenom AS prenom FROM Utilisateur 
+		WHERE Utilisateur.login='$login' AND Utilisateur.mdp='$mdp'";
 		$rs = PdoGsb::$monPdo->query($req);
 		$ligne = $rs->fetch();
+		
+		if(is_array($ligne)) {
+			$req = "SELECT id FROM Comptable WHERE id=?";
+			$rs = PdoGsb::$monPdo->prepare($req);
+			$rs->execute(array($ligne["id"]));
+			$ligne["compta"] = is_array($rs->fetch());
+		}
+		
 		return $ligne;
 	}
 
