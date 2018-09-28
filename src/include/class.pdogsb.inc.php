@@ -81,8 +81,9 @@ class PdoGsb{
  * @return tous les champs des lignes de frais hors forfait sous la forme d'un tableau associatif 
 */
 	public function getLesFraisHorsForfait($idVisiteur,$mois){
-	    $req = "SELECT * FROM LigneFraisHorsForfait WHERE LigneFraisHorsForfait.idVisiteur ='$idVisiteur' 
+	    $req = "SELECT LigneFraisHorsForfait.id as id, LigneFraisHorsForfait.idVisiteur as idVisiteur, LigneFraisHorsForfait.mois as mois, LigneFraisHorsForfait.libelle as libelle, LigneFraisHorsForfait.date as date, LigneFraisHorsForfait.montant as montant, LigneFraisHorsForfait.statut as statut, StatutHorsForfait.id as id, StatutHorsForfait.libelle as libellestatut from LigneFraisHorsForfait, StatutHorsForfait where LigneFraisHorsForfait.statut = StatutHorsForfait.id and LigneFraisHorsForfait.idVisiteur ='$idVisiteur'
 		AND LigneFraisHorsForfait.mois = '$mois' ";	
+		
 		$res = PdoGsb::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		$nbLignes = count($lesLignes);
@@ -115,10 +116,11 @@ class PdoGsb{
 */
 	public function getLesFraisForfait($idVisiteur, $mois){
 		$req = "SELECT FraisForfait.id AS idFrais, FraisForfait.libelle AS libelle, 
-		LigneFraisForfait.quantite as quantite from LigneFraisForfait INNER JOIN FraisForfait 
+		LigneFraisForfait.quantite as quantite, FraisForfait.Montant as montant from LigneFraisForfait INNER JOIN FraisForfait 
 		ON FraisForfait.id = LigneFraisForfait.idFraisForfait
 		WHERE LigneFraisForfait.idVisiteur ='$idVisiteur' AND LigneFraisForfait.mois='$mois' 
 		ORDER BY LigneFraisForfait.idFraisForfait";	
+			
 		$res = PdoGsb::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		return $lesLignes; 
@@ -239,8 +241,8 @@ class PdoGsb{
 */
 	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
 		$dateFr = dateFrancaisVersAnglais($date);
-		$req = "INSERT INTO LigneFraisHorsForfait 
-		VALUES('', '$idVisiteur', '$mois', '$libelle', '$dateFr', '$montant')";
+		$req = "INSERT INTO LigneFraisHorsForfait(idVisiteur, mois, libelle, date, montant, statut) 
+		values('$idVisiteur','$mois','$libelle','$dateFr','$montant', 1)";
 		PdoGsb::$monPdo->exec($req);
 	}
 /**
