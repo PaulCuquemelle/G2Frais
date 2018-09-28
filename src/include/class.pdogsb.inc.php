@@ -81,8 +81,9 @@ class PdoGsb{
  * @return tous les champs des lignes de frais hors forfait sous la forme d'un tableau associatif 
 */
 	public function getLesFraisHorsForfait($idVisiteur,$mois){
-	    $req = "LigneFraisHorsForfait.id as id, LigneFraisHorsForfait.idVisiteur as idVisiteur, LigneFraisHorsForfait.mois as mois, LigneFraisHorsForfait.libelle as libelle, LigneFraisHorsForfait.date as date, LigneFraisHorsForfait.montant as montant, LigneFraisHorsForfait.statut as statut, StatutHorsForfait.id as id, StatutHorsForfait.libelle as libellestatut from LigneFraisHorsForfait, StatutHorsForfait where LigneFraisHorsForfait.statut = StatutHorsForfait.id and LigneFraisHorsForfait.idVisiteur ='$idVisiteur'
+	    $req = "SELECT LigneFraisHorsForfait.id as id, LigneFraisHorsForfait.idVisiteur as idVisiteur, LigneFraisHorsForfait.mois as mois, LigneFraisHorsForfait.libelle as libelle, LigneFraisHorsForfait.date as date, LigneFraisHorsForfait.montant as montant, LigneFraisHorsForfait.statut as statut, StatutHorsForfait.id as id, StatutHorsForfait.libelle as libellestatut from LigneFraisHorsForfait, StatutHorsForfait where LigneFraisHorsForfait.statut = StatutHorsForfait.id and LigneFraisHorsForfait.idVisiteur ='$idVisiteur'
 		AND LigneFraisHorsForfait.mois = '$mois' ";	
+		
 		$res = PdoGsb::$monPdo->query($req);
 		$lesLignes = $res->fetchAll();
 		$nbLignes = count($lesLignes);
