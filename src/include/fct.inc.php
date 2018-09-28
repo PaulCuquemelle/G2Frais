@@ -20,11 +20,11 @@ function estConnecte(){
  * @param $nom
  * @param $prenom
  */
-function connecter($id,$nom,$prenom, $comptable){
+function connecter($id, $nom, $prenom, $comptable){
 	$_SESSION['idVisiteur']= $id; 
 	$_SESSION['nom']= $nom;
 	$_SESSION['prenom']= $prenom;
-	$_SESSION["comptable"] = $comptable;
+	$_SESSION['comptable'] = $comptable;
 }
 /**
  * Détruit la session active
@@ -156,14 +156,14 @@ function valideInfosFrais($dateFrais,$libelle,$montant){
 		ajouterErreur("Le champ date ne doit pas être vide");
 	}
 	else{
-		if(!estDatevalide($dateFrais)){
+		/*if(!estDatevalide($dateFrais)){
 			ajouterErreur("Date invalide");
-		}	
-		else{
+		}	*/
+		//else{
 			if(estDateDepassee($dateFrais)){
 				ajouterErreur("date d'enregistrement du frais dépassé, plus de 1 an");
 			}			
-		}
+		//}
 	}
 	if($libelle == ""){
 		ajouterErreur("Le champ description ne peut pas être vide");
@@ -209,5 +209,4 @@ function nbErreurs(){
 function crypterMdp($mdp) {
 	return hash("sha256", $mdp);
 }
-
 ?>
