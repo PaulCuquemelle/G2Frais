@@ -240,9 +240,9 @@ class PdoGsb{
  * @param $montant : le montant
 */
 	public function creeNouveauFraisHorsForfait($idVisiteur,$mois,$libelle,$date,$montant){
-		$dateFr = dateFrancaisVersAnglais($date);
+		//$dateFr = dateFrancaisVersAnglais($date);
 		$req = "INSERT INTO LigneFraisHorsForfait(idVisiteur, mois, libelle, date, montant, statut) 
-		values('$idVisiteur','$mois','$libelle','$dateFr','$montant', 1)";
+		values('$idVisiteur','$mois','$libelle','$date','$montant', 1)";
 		PdoGsb::$monPdo->exec($req);
 	}
 /**
